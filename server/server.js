@@ -1,6 +1,6 @@
 import express from 'express';
 import bodyParser from 'body-parser';
-import mongoose, { mongo } from 'mongoose';
+import mongoose from 'mongoose';
 import cors from 'cors';
 import dotenv from 'dotenv'
 import multer from 'multer';
@@ -9,6 +9,7 @@ import morgan from 'morgan';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { error } from 'console';
+import { register } from './controllers/auth.js'
 
 //CONFIGURATIONS
 dotenv.config()
@@ -34,8 +35,10 @@ const storage = multer.diskStorage({
         cb(null, file.originalname)
     }
 })
-
 const upload = multer({storage})
+
+//ROUTES WITH FILES
+app.post('/auth/register', upload.single('picture'), register)
 
 // MONGOOSE SETUP
 
